@@ -125,6 +125,7 @@ function getReportCount(id) {
                 left: '50%', // 마커 이미지 중앙에 표시
                 transform: 'translateX(-50%)', // 좌우 중앙 정렬
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)', // 그림자 효과
+                zIndex: '0'
               }}
             >
               <div className = "info" /*style = {{float: 'left', minWidth: '210px', width: 'max-content', marginTop:'5px', height:'100%'}}*/>

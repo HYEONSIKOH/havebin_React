@@ -1,0 +1,21 @@
+nohup: ignoring input
+
+> havebin@0.1.0 start
+> export PORT=80 && react-scripts start
+
+(node:33543) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:33543) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled successfully!
+
+You can now view havebin in the browser.
+
+  Local:            http://localhost:80
+  On Your Network:  http://172.31.41.238:80
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully

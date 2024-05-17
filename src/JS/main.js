@@ -4,7 +4,7 @@ import { MOBILE } from './mobile.js';
 
 
 function MAIN() {
-    const URL = 'http://ec2-43-201-28-219.ap-northeast-2.compute.amazonaws.com:8080/';
+    const URL = 'https://api.have-bin.com/';
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isAndroid = /android/i.test(userAgent);
     const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;

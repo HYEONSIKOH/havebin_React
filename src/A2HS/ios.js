@@ -24,7 +24,7 @@ function IOS() {
                 {!isOn && (
                     <div 
                         style={{
-                            backgroundColor: isOn ? '#F6F6F6' : '#FFFFFF', 
+                            backgroundColor: '#FFFFFF', 
                             width: '70%', 
                             height: 'auto', // 변경된 부분
                             paddingRight: '20px',
