@@ -12,6 +12,7 @@ function MOBILE({ url }) {
     const [reportCount, setReportCount] = useState("-");
     const [showModal, setShowModal] = useState(false);
     const [visibility, setVisibility] = useState(true);
+    const [error, setError] = useState(null);
 
     // 접속 OS및 기기 확인란
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -61,18 +62,13 @@ function MOBILE({ url }) {
     }
 
     useEffect(() => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            setCenter({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            });
-          }, (error) => {
-            console.error("Geolocation 정보를 가져올 수 없습니다:", error);
-          });
-        } else {
-          alert("내 위치를 가져올 수 없습니다.");
-        }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(handlePosition, handleError);
+        // 내 위치가 변경될 때마다 이벤트 리스너 등록
+        navigator.geolocation.watchPosition(handlePosition, handleError);
+      } else {
+        setError("내 위치를 가져올 수 없습니다.");
+      }
     
         axios.get(url + 'findTrashcans')
           .then((response) => { setTrashcans(response.data); }) // 데이터를 상태에 저장
@@ -83,6 +79,18 @@ function MOBILE({ url }) {
     
       }, [url]);
 
+      const handlePosition = position => {
+        setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      };
+    
+      const handleError = error => {
+        console.error("Geolocation 정보를 가져올 수 없습니다:", error);
+        setError("Geolocation 정보를 가져올 수 없습니다.");
+      };
+
     return (
       <div style={{
         position: 'absolute',
@@ -91,14 +99,16 @@ function MOBILE({ url }) {
         width: '100%',
         height: 'calc(100% + env(safe-area-inset-top))',
       }}>
+        
+        <div style = {{top: 10, left:'10px', position: 'absolute', zIndex: '120'}}> <img src="./logo.svg" alt="logo" style={{width: '60%', height: '100%'}}/> </div>
         {/* 아이폰 (홈 화면에 추가) 버튼 */}
         { isiOS && !isStandalone && (
           <IOS />
         )}
 
-        {/* 아이폰 (홈 화면에 추가) 버튼 */}
+        {/* 안드로이드 (APK 다운로드) 버튼 */}
         { isAndroid && visibility && (
-          <ANDROID onClose={() => setVisibility(false)} />
+           <ANDROID onClose={() => setVisibility(false)} />
         )}
 
         <Map center={center} 
@@ -153,14 +163,12 @@ function MOBILE({ url }) {
             alignItems: 'center', // 수직 가운데 정렬
           }}>
 
-          <div style={{ position: 'absolute', maxWidth: '95%', top:'15%' }}> {/* 부모 요소 추가 */}
+          <div style={{ position: 'absolute', width: '95%', top:'10%', height: '55%'}}> {/* 부모 요소 추가 */}
             <img 
               src={trashcans.find((tc) => tc.id === openMarkerId)?.roadviewImgpath} 
               alt="button image" 
-              style={{
-                maxWidth: '100%', // 이미지가 div의 너비를 초과하지 않도록 설정
-                maxHeight: '100%', // 이미지가 div의 높이를 초과하지 않도록 설정
-              }}
+              height={'100%'}
+              width={'100%'}
             />
             <button 
               onClick={handleCloseModal}
