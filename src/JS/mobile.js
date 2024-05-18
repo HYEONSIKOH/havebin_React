@@ -99,8 +99,12 @@ function MOBILE({ url }) {
         width: '100%',
         height: 'calc(100% + env(safe-area-inset-top))',
       }}>
-        
-        <div style = {{top: 10, left:'10px', position: 'absolute', zIndex: '120'}}> <img src="./logo.svg" alt="logo" style={{width: '60%', height: '100%'}}/> </div>
+        {/* 상단 좌측 로고*/}
+        {/*env(safe-area-inset-top) !== 0 ? 'env(safe-area-inset-top + 10%)' :*/}
+        <div style = {{ top: "env(safe-area-inset-top)" , left:'10px', position: 'absolute', zIndex: '120'}}> 
+          <img src="./logo2.svg" alt="logo" style={{width: '20%', height: '30%'}}/> 
+        </div>
+
         {/* 아이폰 (홈 화면에 추가) 버튼 */}
         { isiOS && !isStandalone && (
           <IOS />

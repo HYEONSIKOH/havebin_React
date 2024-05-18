@@ -67,7 +67,7 @@ function getReportCount(id) {
 
   return (
     <div>
-     <div style = {{top: 10, left:'10px', position: 'absolute', zIndex: '120'}}> <img src="./logo.svg" alt="logo" style={{width: '60%', height: '100%'}}/> </div> <Map center={center} style={{ width: '100%', height: '100vh', zIndex: '0' }} level={3}>
+     <div style = {{top: 10, left:'10px', position: 'absolute', zIndex: '120'}}> <img src="./logo2.svg" alt="logo" style={{width: '20%', height: '30%'}}/> </div> <Map center={center} style={{ width: '100%', height: '100vh', zIndex: '0' }} level={3}>
 
         {/* 현 위치 마커 */}
         <MapMarker
