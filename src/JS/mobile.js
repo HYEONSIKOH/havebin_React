@@ -156,7 +156,7 @@ function MOBILE({ url }) {
           key={'center'}
           position={center}
           image={{
-            src: "position.png", // 마커 이미지 URL
+            src: "position.svg", // 마커 이미지 URL
             size: { width: 30, height: 40 }, // 마커 이미지의 크기 설정
             options: { offset: { x: 27, y: 27 }} // 이미지의 오프셋 설정  
           }}
