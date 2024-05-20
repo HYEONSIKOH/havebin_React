@@ -95,7 +95,7 @@ function MOBILE({ url }) {
     };
 
     const getMarkerSize = (id) => {
-        return openMarkerId === id ? 40 : 40;
+        return openMarkerId === id ? 40 : 26;
     }
 
     // 쓰레기통 신고횟수 가져오기
@@ -285,7 +285,7 @@ function MOBILE({ url }) {
               image={{
                 src: getMarkerImage(trashcan.id), // 마커 이미지 URL
                 size: { width: getMarkerSize(trashcan.id), height: getMarkerSize(trashcan.id) }, // 마커 이미지의 크기 설정
-                options: { offset: { x: 0, y: 20 }} // 이미지의 오프셋 설정  
+                options: { offset: { x: 0, y: getMarkerSize(trashcan.id) }} // 이미지의 오프셋 설정  
               }}
               onClick={() => handleMarkerClick(trashcan.id)}
             >
