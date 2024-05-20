@@ -235,7 +235,7 @@ function MOBILE({ url }) {
                   style={{
                       backgroundColor: '#FFFFFF',
                       borderRadius: '12px',
-                      padding: '7px',
+                      padding: '9px',
                       border: 'none',
                       cursor: 'pointer',
                       position: 'absolute',
@@ -245,6 +245,9 @@ function MOBILE({ url }) {
                       outline: 'none',
                       fontWeight: 'bold',
                       webkitTapHighlightColor: 'transparent',
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: 'black'
                   }}
               >
                   <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Refresh_icon.svg" width={12} height={12} style={{marginRight: 3}}/>새로고침
@@ -300,7 +303,7 @@ function MOBILE({ url }) {
             width: '100vw', // 화면 너비만큼
             height: '100vh', // 화면 높이만큼
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명한 검은색 배경
-            zIndex: '1', // 화면 상위에 위치
+            zIndex: '50', // 화면 상위에 위치
             display: 'flex', // 자식 요소들을 행 방향으로 배열
             justifyContent: 'center', // 가운데 정렬
             alignItems: 'center', // 수직 가운데 정렬

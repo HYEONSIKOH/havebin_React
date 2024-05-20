@@ -12,7 +12,9 @@ function CATEGORY({mode}) {
                       border: '1px solid #ccc',
                       borderRadius: '37px',
                       fontSize: '12px',
-                      width: 'fit-content' // 내용에 맞게 너비를 조정
+                      width: 'fit-content', // 내용에 맞게 너비를 조정
+                        fontWeight: 'bold',
+                        zIndex: '101',
                     }}
                   >
                     <a style={{verticalAlign: 'middle'}}>{mode}</a>
