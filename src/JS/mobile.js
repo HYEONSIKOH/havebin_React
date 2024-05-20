@@ -13,6 +13,9 @@ function MOBILE({ url }) {
     const [showModal, setShowModal] = useState(false);
     const [visibility, setVisibility] = useState(true);
     const [error, setError] = useState(null);
+    const [logoImgOn, setLogoImgOn] = useState(false);
+    const [isOn, setIsOn] = useState(true);
+    const [safeAreaInsetTop, setSafeAreaInsetTop] = useState('env(safe-area-inset-top)');
 
     // 접속 OS및 기기 확인란
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -24,9 +27,34 @@ function MOBILE({ url }) {
       showModal !== true ? setShowModal(true): setShowModal(false);
     };
 
+    useEffect(() => {
+        // DOM 요소 생성
+        let div = document.createElement('div');
+        // 높이 설정
+        div.style.height = 'env(safe-area-inset-top)';
+        // DOM 요소를 body에 추가
+        document.body.appendChild(div);
+        // 계산된 높이 가져오기
+        let computedHeight = window.getComputedStyle(div).height;
+        // DOM 요소 제거
+        document.body.removeChild(div);
+        console.log(computedHeight);
+
+        // 계산된 높이가 0인지 확인
+        if (computedHeight === '0px') {
+            // 0인 경우 safeAreaInsetTop 상태를 10px로 설정
+            setSafeAreaInsetTop('10px');
+            console.log(safeAreaInsetTop);
+        }
+    }, []);
+
     const handleCloseModal = () => {
       setShowModal(false);
     };
+
+    const handleLogoImgShowChange = () => {
+        isOn ? setIsOn(false) : setIsOn(true);
+    }
 
     // 마커 클릭 핸들러
     const handleMarkerClick = (id) => {
@@ -101,19 +129,21 @@ function MOBILE({ url }) {
       }}>
         {/* 상단 좌측 로고*/}
         {/*env(safe-area-inset-top) !== 0 ? 'env(safe-area-inset-top + 10%)' :*/}
-        <div style = {{ top: "env(safe-area-inset-top)" , left:'10px', position: 'absolute', zIndex: '120'}}> 
-          <img src="./logo2.svg" alt="logo" style={{width: '20%', height: '30%'}}/> 
-        </div>
+          { isOn && (
+              <div style={{top: safeAreaInsetTop, left: '10px', position: 'absolute', zIndex: '120'}}>
+                  <img src="./logo2.svg" alt="logo" style={{width: '15%', height: '22.5%'}}/>
+              </div>
+          )}
 
-        {/* 아이폰 (홈 화면에 추가) 버튼 */}
-        { isiOS && !isStandalone && (
-          <IOS />
-        )}
+          {/* 아이폰 (홈 화면에 추가) 버튼 */}
+          {isiOS && !isStandalone && (
+              <IOS onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)}/>
+          )}
 
-        {/* 안드로이드 (APK 다운로드) 버튼 */}
-        { isAndroid && visibility && (
-           <ANDROID onClose={() => setVisibility(false)} />
-        )}
+          {/* 안드로이드 (APK 다운로드) 버튼 */}
+          {isAndroid && visibility && (
+              <ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />
+          )}
 
         <Map center={center} 
           style={{ 

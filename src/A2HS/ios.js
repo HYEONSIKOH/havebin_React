@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import '../CSS/ios.css';
 import { NUMCIR } from "../Btn/numCir.js"
 
-function IOS() {
+function IOS(props) {
+    const [visibility, setVisibility] = useState(true);
     const [isOn, setIsOn] = useState(false);
 
     // { 설치없이 앱으로 시작 } 버튼 누르면 ON으로 바뀜
@@ -63,7 +64,10 @@ function IOS() {
                                 marginBottom: '30px',
                                 marginTop: '30px',
                                 }}
-                            onClick={handleVisibilityChange}
+                            onClick={() => {
+                                handleVisibilityChange();
+                                props.onCloseLogo();
+                            }}
                             >
                             설치없이 앱으로 시작
                         </div>
@@ -82,7 +86,14 @@ function IOS() {
                             padding: '5%',
                         }}>
                         
-                        <button style={{position: 'absolute', left: '5%', top: '3%', outline: 'none', border: 'none', background: 'none', padding: 0 }} onClick={handleVisibilityChange}>
+                        <button
+                            style=
+                                {{position: 'absolute', left: '5%', top: '3%', outline: 'none', border: 'none', background: 'none', padding: 0 }}
+                            onClick={() => {
+                                handleVisibilityChange();
+                                props.onCloseLogo();
+                            }}
+                        >
                             <img src='./ArrowLeft.svg'/>
                         </button>
 

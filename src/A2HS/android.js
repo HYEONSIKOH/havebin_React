@@ -72,7 +72,7 @@ function ANDROID(props) {
                                 }}
                             >
                             <a style={{ textDecoration: 'none', color: 'inherit' }}>
-                                <div style = {{display: 'flex', alignItems: 'center'}} onClick={handleIsOnChange} >
+                                <div style = {{display: 'flex', alignItems: 'center'}} onClick={() => { handleIsOnChange(); props.onCloseLogo();}} >
                                     <img src='../store.svg' width='15px' height='15px' style={{marginRight: '5px'}}/>
                                     스토어에서 설치
                                 </div>
@@ -99,7 +99,7 @@ function ANDROID(props) {
                             padding: '5%',
                         }}>
                         
-                        <button style={{position: 'absolute', left: '5%', top: '3%', outline: 'none', border: 'none', background: 'none', padding: 0 }} onClick={handleIsOnChange}>
+                        <button style={{position: 'absolute', left: '5%', top: '3%', outline: 'none', border: 'none', background: 'none', padding: 0 }} onClick = {() => { handleIsOnChange(); props.onCloseLogo();}}>
                             <img src='./ArrowLeft.svg'/>
                         </button>
 

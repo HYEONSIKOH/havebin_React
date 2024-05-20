@@ -174,7 +174,7 @@ function getReportCount(id) {
                 </a>
               </div>
 
-              <div className = "ReportBTN" style={{float: 'right', bottom: '10px', right: '10px', position: 'absolute', float: 'right'}}>
+              <div className = "ReportBTN" style={{bottom: '10px', right: '10px', position: 'absolute', float: 'right'}}>
                 <div
                   style={{
                     display: 'block', // 버튼을 블록 요소로 설정
