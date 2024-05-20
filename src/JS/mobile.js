@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Map, MapMarker, MarkerClusterer} from 'react-kakao-maps-sdk'; // MarkerClusterer 추가
 import { CATEGORY } from "../Btn/category.js"
 import axios from 'axios';
@@ -28,6 +28,21 @@ function MOBILE({ url }) {
     const isAndroid = /android/i.test(userAgent);
     const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches; // true: PWA, false: 브라우저
+
+    const infoWindowRef = useRef(null);
+    const [buttonBottom, setButtonBottom] = useState('10px');
+
+    useEffect(() => {
+        if (infoWindowRef.current) {
+            const infoWindowHeight = infoWindowRef.current.offsetHeight;
+            setButtonBottom(`${infoWindowHeight + 5}px`);
+            console.log("변경")
+        } else {
+            setButtonBottom(`calc(10px + env(safe-area-inset-bottom))`);
+        }
+        console.log(infoWindowRef)
+        console.log(buttonBottom)
+    }, [openMarkerId, infoWindowRef.current]);
 
     const handleImageClick = () => {
         showModal !== true ? setShowModal(true): setShowModal(false);
@@ -114,6 +129,16 @@ function MOBILE({ url }) {
 
       }, [url]);
 
+    function refresh_Trashcan_Data() {
+        console.log("새로고침 중...")
+      axios.get(url + 'findTrashcans')
+          .then((response) => { setTrashcans(response.data); }) // 데이터를 상태에 저장
+          .catch((error) => {
+            console.error('Error fetching data: ', error);
+            console.log('데이터를 가져오는데 실패했습니다.');
+          });
+    }
+
     // 지도의 중심을 바꿔주는 코드
     const handleCenterPosition = position => {
         setState( {center:{
@@ -180,9 +205,10 @@ function MOBILE({ url }) {
               <IOS onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)}/>
           )}
 
+          {/*<ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />*/}
           {/* 안드로이드 (APK 다운로드) 버튼 */}
           {isAndroid && visibility && (
-              <ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />
+              <div> test </div>
           )}
 
           <div>
@@ -195,7 +221,7 @@ function MOBILE({ url }) {
                       border: 'none',
                       cursor: 'pointer',
                       position: 'absolute',
-                      bottom: '10px',
+                      bottom: buttonBottom,
                       left: '10px',
                       zIndex: '50',
                       outline: 'none',
@@ -203,6 +229,25 @@ function MOBILE({ url }) {
                   }}
               >
                   <img src="./moveCenter.svg" alt="button icon"/>
+              </button>
+              <button
+                  onClick={refresh_Trashcan_Data}
+                  style={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: '12px',
+                      padding: '7px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      position: 'absolute',
+                      bottom: buttonBottom,
+                      right: '10px',
+                      zIndex: '50',
+                      outline: 'none',
+                      fontWeight: 'bold',
+                      webkitTapHighlightColor: 'transparent',
+                  }}
+              >
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Refresh_icon.svg" width={12} height={12} style={{marginRight: 3}}/>새로고침
               </button>
           </div>
 
@@ -219,17 +264,17 @@ function MOBILE({ url }) {
               <MapMarker
                   key={'myPosition'}
                   position={myPosition}
-          image={{
-            src: "position.svg", // 마커 이미지 URL
-            size: { width: 30, height: 40 }, // 마커 이미지의 크기 설정
-            options: { offset: { x: 27, y: 27 }} // 이미지의 오프셋 설정  
-          }}
-        />
+                  image={{
+                      src: "position.svg", // 마커 이미지 URL
+                      size: {width: 30, height: 40}, // 마커 이미지의 크기 설정
+                      options: {offset: {x: 27, y: 27}} // 이미지의 오프셋 설정
+                  }}
+              />
 
-        {/* 클러스터링 */}
-        <MarkerClusterer averageCenter={true} minLevel={5}>
+              {/* 클러스터링 */}
+              <MarkerClusterer averageCenter={true} minLevel={5}>
 
-          {/* 쓰레기통 마커 */}
+              {/* 쓰레기통 마커 */}
           {trashcans.map((trashcan) => (
             <MapMarker
               key={trashcan.id}
@@ -286,9 +331,10 @@ function MOBILE({ url }) {
 
           {/* 클릭된 마커의 정보창 */}
           {openMarkerId !== null && (
-            <div 
-            className = "infoWindow"
-            style={{
+            <div
+                ref={infoWindowRef}
+                className = "infoWindow"
+                style={{
               width: '95%', // 가장 큰 콘텐츠에 맞춰 너비 설정
               height: 'auto', // 자동 높이 설정
               zIndex: '1',
