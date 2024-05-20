@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+    <!-- 외곽의 연한 회색 원 -->
+    <circle cx="128" cy="128" r="96" fill="#F8FAFB" fill-opacity="0.2" />
+
+    <!-- 파란색 원 -->
+    <circle cx="128" cy="128" r="80" fill="#3165E8" stroke="#3165E8" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 흰색 원 -->
+    <circle cx="128" cy="128" r="80" fill="none" stroke="#FFFFFF" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
