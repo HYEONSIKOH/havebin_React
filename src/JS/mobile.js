@@ -13,9 +13,15 @@ function MOBILE({ url }) {
     const [showModal, setShowModal] = useState(false);
     const [visibility, setVisibility] = useState(true);
     const [error, setError] = useState(null);
-    const [logoImgOn, setLogoImgOn] = useState(false);
-    const [isOn, setIsOn] = useState(true);
+    const [logoImgOn, setLogoImgOn] = useState(true);
     const [safeAreaInsetTop, setSafeAreaInsetTop] = useState('env(safe-area-inset-top)');
+    const [myPosition, setMyPosition] = useState({ lat: 37.514634749, lng: 127.104260695 });
+    const [test, setTest] = useState(false);
+    const [state, setState] = useState({
+        center: { lat: 36.83449614920156, lng: 127.17936922961768 },
+        panto: false
+    })
+
 
     // 접속 OS및 기기 확인란
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -24,8 +30,12 @@ function MOBILE({ url }) {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches; // true: PWA, false: 브라우저
 
     const handleImageClick = () => {
-      showModal !== true ? setShowModal(true): setShowModal(false);
+        showModal !== true ? setShowModal(true): setShowModal(false);
     };
+
+    const handleTest = () => {
+        !test ? setTest(true): setTest(false);
+    }
 
     useEffect(() => {
         // DOM 요소 생성
@@ -38,13 +48,11 @@ function MOBILE({ url }) {
         let computedHeight = window.getComputedStyle(div).height;
         // DOM 요소 제거
         document.body.removeChild(div);
-        console.log(computedHeight);
 
         // 계산된 높이가 0인지 확인
         if (computedHeight === '0px') {
             // 0인 경우 safeAreaInsetTop 상태를 10px로 설정
             setSafeAreaInsetTop('10px');
-            console.log(safeAreaInsetTop);
         }
     }, []);
 
@@ -53,7 +61,7 @@ function MOBILE({ url }) {
     };
 
     const handleLogoImgShowChange = () => {
-        isOn ? setIsOn(false) : setIsOn(true);
+        logoImgOn ? setLogoImgOn(false) : setLogoImgOn(true);
     }
 
     // 마커 클릭 핸들러
@@ -91,33 +99,65 @@ function MOBILE({ url }) {
 
     useEffect(() => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(handlePosition, handleError);
-        // 내 위치가 변경될 때마다 이벤트 리스너 등록
-        navigator.geolocation.watchPosition(handlePosition, handleError);
+        navigator.geolocation.getCurrentPosition(handleCenterPosition, handleError);
+        navigator.geolocation.watchPosition(handleMyPosition, handleError);
       } else {
         setError("내 위치를 가져올 수 없습니다.");
       }
     
-        axios.get(url + 'findTrashcans')
+      axios.get(url + 'findTrashcans')
           .then((response) => { setTrashcans(response.data); }) // 데이터를 상태에 저장
           .catch((error) => {
             console.error('Error fetching data: ', error);
-            alert('데이터를 가져오는데 실패했습니다.');
+            console.log('데이터를 가져오는데 실패했습니다.');
           });
-    
+
       }, [url]);
 
-      const handlePosition = position => {
-        setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+    // 지도의 중심을 바꿔주는 코드
+    const handleCenterPosition = position => {
+        setState( {center:{
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }});
+
+        console.log("내 위치: ")
+        console.log(myPosition)
+    };
+
+    const moveCenter = () => {
+        test ? setTest(false) : setTest(true);
+
+        if (test) {
+            setState( ({
+                center: { lat: myPosition.lat + 0.00000003, lng: myPosition.lng + 0.00000003  },
+                panto: test
+            }));
+        } else {
+            setState( ({
+                center: { lat: myPosition.lat, lng: myPosition.lng  },
+                panto: test
+            }));
+        }
+
+        console.log(state)
+    }
+
+    // 내 위치를 바꿔주는 코드
+    const handleMyPosition = position => {
+        setMyPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
         });
-      };
+
+        console.log("내 위치: ")
+        console.log(myPosition)
+    };
     
-      const handleError = error => {
+    const handleError = error => {
         console.error("Geolocation 정보를 가져올 수 없습니다:", error);
         setError("Geolocation 정보를 가져올 수 없습니다.");
-      };
+    };
 
     return (
       <div style={{
@@ -129,7 +169,7 @@ function MOBILE({ url }) {
       }}>
         {/* 상단 좌측 로고*/}
         {/*env(safe-area-inset-top) !== 0 ? 'env(safe-area-inset-top + 10%)' :*/}
-          { isOn && (
+          { logoImgOn && (
               <div style={{top: safeAreaInsetTop, left: '10px', position: 'absolute', zIndex: '120'}}>
                   <img src="./logo2.svg" alt="logo" style={{width: '15%', height: '22.5%'}}/>
               </div>
@@ -145,16 +185,40 @@ function MOBILE({ url }) {
               <ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />
           )}
 
-        <Map center={center} 
-          style={{ 
-            width: '100%',
-            height: '100%', 
-            zIndex: '0',
-            }} 
-          level={3}>
-        <MapMarker
-          key={'center'}
-          position={center}
+          <div>
+              <button
+                  onClick={moveCenter}
+                  style={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: '50%',
+                      padding: '5px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      position: 'absolute',
+                      bottom: '10px',
+                      left: '10px',
+                      zIndex: '50',
+                      outline: 'none',
+                      webkitTapHighlightColor: 'transparent',
+                  }}
+              >
+                  <img src="./moveCenter.svg" alt="button icon"/>
+              </button>
+          </div>
+
+          <Map
+              center={state.center}
+              style={{
+                  width: '100%',
+                  height: '100%',
+                  zIndex: '0',
+              }}
+              level={3}
+              isPanto={state.panto}
+          >
+              <MapMarker
+                  key={'myPosition'}
+                  position={myPosition}
           image={{
             src: "position.svg", // 마커 이미지 URL
             size: { width: 30, height: 40 }, // 마커 이미지의 크기 설정
