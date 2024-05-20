@@ -91,7 +91,7 @@ function MOBILE({ url }) {
     };
 
     const getMarkerImage = (id) => {
-        return openMarkerId === id ? "clickTrashcan.svg" : "trashcan.svg";
+        return openMarkerId === id ? "clickTrashcan.png" : "trashcan.png";
     };
 
     const getMarkerSize = (id) => {
@@ -208,7 +208,7 @@ function MOBILE({ url }) {
           {/*<ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />*/}
           {/* 안드로이드 (APK 다운로드) 버튼 */}
           {isAndroid && visibility && (
-              <div> test </div>
+              <ANDROID onCloseLogo={() => handleLogoImgShowChange()} onClose={() => setVisibility(false)} />
           )}
 
           <div>
@@ -270,7 +270,7 @@ function MOBILE({ url }) {
                   image={{
                       src: "position.svg", // 마커 이미지 URL
                       size: {width: 30, height: 40}, // 마커 이미지의 크기 설정
-                      options: {offset: {x: 27, y: 27}} // 이미지의 오프셋 설정
+                      options: {offset: {x: 15, y: 20}} // 이미지의 오프셋 설정
                   }}
               />
 
@@ -285,7 +285,7 @@ function MOBILE({ url }) {
               image={{
                 src: getMarkerImage(trashcan.id), // 마커 이미지 URL
                 size: { width: getMarkerSize(trashcan.id), height: getMarkerSize(trashcan.id) }, // 마커 이미지의 크기 설정
-                options: { offset: { x: 10, y: 11 }} // 이미지의 오프셋 설정  
+                options: { offset: { x: 0, y: 20 }} // 이미지의 오프셋 설정  
               }}
               onClick={() => handleMarkerClick(trashcan.id)}
             >
