@@ -57,8 +57,11 @@ function getReportCount(id) {
     }
 
     axios.get(url + 'findTrashcans')
-      .then((response) => { setTrashcans(response.data); }) // 데이터를 상태에 저장
-      .catch((error) => {
+      .then((response) => {
+        console.log(response.data);
+        setTrashcans(response.data);
+      })
+        .catch((error) => {
         console.error('Error fetching data: ', error);
         alert('데이터를 가져오는데 실패했습니다.');
       });
