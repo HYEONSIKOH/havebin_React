@@ -4,7 +4,7 @@ import { MOBILE } from './mobile.js';
 
 
 function MAIN() {
-    const URL = 'https://www.have-bin.com/api/';
+    const URL = '/api/';
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isAndroid = /android/i.test(userAgent);
     const isiOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
