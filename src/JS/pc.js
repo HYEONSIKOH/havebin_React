@@ -57,9 +57,9 @@ function getReportCount(id) {
     }
 
     axios.get(url + 'findTrashcans')
-      .then((response) => {
-        console.log(response.data);
-        setTrashcans(response.data);
+      .then((res) => {
+        console.log(res.data);
+        setTrashcans(res.data);
       })
         .catch((error) => {
         console.error('Error fetching data: ', error);
