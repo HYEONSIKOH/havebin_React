@@ -137,7 +137,7 @@ function ANDROID(props) {
                                 color: '#ffffff',
                                 }}
                             >
-                                <a href="https://havebin.s3.ap-northeast-2.amazonaws.com/APK/havebin_Beta+1.0.apk" style={{textDecoration: 'none', color: 'inherit'}}>    
+                                <a href="https://havebin-1.s3.ap-northeast-2.amazonaws.com/APK/havebin_Beta+1.0.apk" style={{textDecoration: 'none', color: 'inherit'}}>
                                     <div style={{display: 'flex', alignItems: 'center'}}>
                                         <img src="../apk.svg" width="20px" height="20px" style={{marginRight: '5px'}} alt="APK 아이콘" />
                                         APK 다운로드
